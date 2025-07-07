@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Crash Observability Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button.danger {
+            background: #dc3545;
+        }
+        button.danger:hover {
+            background: #c82333;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 4px;
+            background: #e9ecef;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .memory-info {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .session-info {
+            font-family: monospace;
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border: 1px solid #ffeaa7;
+        }
+    </style>
+    
+    <!-- Sentry Configuration - Must be defined before the loader script -->
+    <script>
+        window.sentryOnLoad = function () {
+            // Configure Sentry with integrations for automatic breadcrumb collection
+            Sentry.init({
+                dsn: 'https://7f22f9a65bcc122b434d2b0b230dd5fe@o443363.ingest.us.sentry.io/4509606680330240',
+                tracesSampleRate: 1.0,
+                // Disable session replays to reduce noise
+                replaysSessionSampleRate: 0.0,
+                replaysOnErrorSampleRate: 0.0,
+            });
+            
+            // Start the app after Sentry is initialized
+            if (window.init) {
+                window.init();
+            }
+        };
+    </script>
+    
+    <!-- Sentry Loader Script - Load early in head -->
+    <script
+      src="https://js.sentry-cdn.com/7f22f9a65bcc122b434d2b0b230dd5fe.min.js"
+      crossorigin="anonymous"
+      data-lazy="no"
+      onload="if (window.sentryOnLoad) window.sentryOnLoad();"
+    ></script>
+
+    <!-- Watchdog V2 Script: Load after Sentry -->
+    <script src="./watchdogClientV2.js"></script>
+    <script>
+      // Initialize WatchdogV2 after Sentry is loaded and initialized
+      window.sentryOnLoad = (function(orig) {
+        return function() {
+          if (orig) orig();
+          // Use the same DSN as Sentry.init
+          window.initWatchdogV2 && window.initWatchdogV2('https://7f22f9a65bcc122b434d2b0b230dd5fe@o443363.ingest.us.sentry.io/4509606680330240');
+        };
+      })(window.sentryOnLoad);
+    </script>
+    
+    <!-- Note: This is a test DSN. For production, use your own Sentry project DSN -->
+</head>
+<body>
+    <div class="container">
+        <h1>Browser Crash Observability Demo</h1>
+
+        <h3>Test Controls:</h3>
+        <button onclick="testInfiniteLoop()">Infinite Loop Test</button>
+
+        <div class="info">
+          <h3>Simulate Real Browser Crashes:</h3>
+          <ul>
+            <li>To simulate a browser crash, enter <code>chrome://crash</code> in the address bar (Chrome only).</li>
+            <li>To simulate memory exhaustion, enter <code>chrome://memory-exhaust</code> in the address bar.</li>
+          </ul>
+          <p>Note: These actions will crash your browser tab or process. Use with caution!</p>
+          <p><strong>After simulating a crash, you must reopen your browser and reload this page for the crash report to be sent.</strong></p>
+        </div>
+    </div>
+</body>
+</html> 

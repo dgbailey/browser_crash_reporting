@@ -1,0 +1,11 @@
+{
+  "name": "sentry_browser_crash_integration",
+  "version": "1.0.0",
+  "description": "Sentry browser crash reporting integration",
+  "main": "index.js",
+  "keywords": ["observability", "browser", "crash", "sentry_browser_crash_integration"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+} 
