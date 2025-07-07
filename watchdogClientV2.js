@@ -104,6 +104,17 @@
         try {
           const data = JSON.parse(localStorage.getItem(key));
           if (data && !data.reviewed && data.cleanClose === false) {
+            // Skip and remove entries with hidden visibility state if older than 10 minutes
+            if (data.lastVisibilityState === 'hidden') {
+              const ageMinutes = (now - data.lastVisibilityUpdate) / 60000;
+              if (ageMinutes > 10) {
+                localStorage.removeItem(key);
+                console.log('[WatchdogV2] Skipped and removed hidden state entry older than 10 minutes:', data);
+              } else {
+                console.log('[WatchdogV2] Skipped hidden state entry (not removed, age < 10 min):', data);
+              }
+              continue;
+            }
             // Mark as reviewed
             data.reviewed = true;
             localStorage.setItem(key, JSON.stringify(data));
