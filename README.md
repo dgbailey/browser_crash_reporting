@@ -71,7 +71,7 @@ To start the demo, run `python3 -m http.server` in this directory and open http:
 **Compatibility:** Compatible with Sentry JavaScript SDK Loader and npm packages version 8.55.0 and above.
 
 ## TODOs
-
+- Add cleanup logic for localStorage
 - Stress test across browsers
 - Package via npm
 - Pull scope from crashed sessions eagerly to attach post crash
