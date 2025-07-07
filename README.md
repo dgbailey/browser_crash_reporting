@@ -1,5 +1,7 @@
 # WatchdogClientV2: Browser Tab Crash Detection & Reporting
 
+> **Tip:** To start the demo, run `python3 -m http.server` in this directory and open http://localhost:8000 in your browser.
+
 ## 1. Visible Crashes: Design Decision
 
 This library is designed to detect and report **browser tab crashes that occur while the tab is visible to the user**. We intentionally focus on visible crashes.
@@ -65,8 +67,6 @@ General Scenario:
 
 **Questions or issues?**
 Open an issue or PR on this repo!
-
-To start the demo, run `python3 -m http.server` in this directory and open http://localhost:8000 in your browser.
 
 **Compatibility:** Compatible with Sentry JavaScript SDK Loader and npm packages version 8.55.0 and above.
 
