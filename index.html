@@ -137,5 +137,11 @@
           <p><strong>After simulating a crash, you must reopen your browser and reload this page for the crash report to be sent.</strong></p>
         </div>
     </div>
+    <script>
+      function testInfiniteLoop() {
+        // WARNING: This will freeze your browser tab!
+        while (true) {}
+      }
+    </script>
 </body>
 </html> 
