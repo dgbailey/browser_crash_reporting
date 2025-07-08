@@ -74,7 +74,8 @@ Open an issue or PR on this repo!
 - Add cleanup logic for localStorage
 - Stress test across browsers
 - Package via npm
-- Pull scope from crashed sessions eagerly to attach post crash
+- Pull scope from crashed sessions eagerly to attach post crash.
+- Need to identify mobile vs desktop browsers.
 - Evaluate listener cleanup strategy if necessary
 - Assess heap or other memory APIs to add breadcrumbs or context dynamically that can be helpful
 
